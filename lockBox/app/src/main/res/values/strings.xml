@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Lockbox</string>
+    <string name="entre_ou_crie_sua_conta">Entre ou crie sua conta</string>
+    <string name="email">Email</string>
+    <string name="senha">Senha</string>
+    <string name="entrar">Entrar</string>
+    <string name="criar_minha_conta">Criar minha conta</string>
+    <string name="esqueci_minha_senha">Esqueci minha senha</string>
+    <string name="preencha_todos_os_campos">Preencha todos os campos:</string>
+    <string name="nome_completo">Nome completo</string>
+    <string name="idade">Idade</string>
+    <string name="sair">Sair</string>
+    <string name="recuperar_conta">Recuperar conta</string>
+    <string name="recuperar_senha">Recuperar senha</string>
+    <string name="voltar">voltar</string>
+    <string name="Titulo_Menu">Bem vindo ao lockbox</string>
+    <string name="numero_do_cart_o">Numero do cartão</string>
+    <string name="data_de_validade">Data de Validade</string>
+    <string name="cvv">Cvv</string>
+</resources>
