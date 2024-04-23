@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".FinalizarPagamentoActivity">
+
+    <Button
+        android:id="@+id/btnVoltar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Voltar"
+        android:layout_gravity="start"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"/>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <RadioButton
+            android:id="@+id/Pagamento1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 hora = R$30.00"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/Pagamento2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 horas = R$40.00" />
+
+        <RadioButton
+            android:id="@+id/Pagamento3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4 horas = R$60.00" />
+        <RadioButton
+            android:id="@+id/Pagamento4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8 horas = R$100.00"
+            android:checked="true" />
+        <RadioButton
+            android:id="@+id/Pagamento5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="16 horas = R$180.00"
+            android:checked="true" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btnFinalizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Finalizar Compra"
+        android:layout_gravity="end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"/>
+
+</LinearLayout>
+

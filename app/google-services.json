@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1071822856015:android:4ccbc7475585405cf56f3a",
+        "mobilesdk_app_id": "1:741492786814:android:e1ce14255b879f13563a2f",
         "android_client_info": {
-          "package_name": "br.edu.puccampinas.lockbox"
+          "package_name": "br.edu.puccampinas.PI3_ES_2024_Time17"
         }
       },
       "oauth_client": [],

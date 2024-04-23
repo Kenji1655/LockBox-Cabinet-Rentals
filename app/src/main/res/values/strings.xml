@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lockbox</string>
+    <string name="app_name">LockBox</string>
     <string name="entre_ou_crie_sua_conta">Entre ou crie sua conta</string>
     <string name="email">Email</string>
     <string name="senha">Senha</string>
