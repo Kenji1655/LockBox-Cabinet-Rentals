@@ -19,7 +19,8 @@ class ArmarioAdapter(private val listaDeArmarios: List<Armario>) : RecyclerView.
     override fun onBindViewHolder(holder: ArmarioViewHolder, position: Int) {
         val currentItem = listaDeArmarios[position]
         holder.armarioNumero.text = "Armário ${position + 1}"
-        holder.disponibilidade.text = "${if (currentItem.disponibilidade) "Disponivel" else "Disponível"}"
+        holder.disponibilidade.text = if (currentItem.disponibilidade) "Disponivel" else "Ocupado"
+        holder.alocar.isEnabled = currentItem.disponibilidade
         holder.alocar.setOnClickListener {
             val numeroArmario = position + 1
             val context = holder.itemView.context

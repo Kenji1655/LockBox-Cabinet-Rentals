@@ -7,6 +7,7 @@ import android.app.Dialog
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -17,19 +18,31 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.Polyline
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.maps.DirectionsApi
+import com.google.maps.GeoApiContext
+import com.google.maps.model.DirectionsResult
+import com.google.maps.model.TravelMode
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
-class MenuActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListener,
-    GoogleMap.OnMyLocationClickListener, OnMapReadyCallback {
+class MenuActivity : AppCompatActivity(), OnMapReadyCallback {
 
+    private var ultimaLocalizacao: Location? = null
+    private var polylineAtual: Polyline? = null
     private val requisitarCodigo = 1
     private lateinit var map: GoogleMap
     private lateinit var auth: FirebaseAuth
@@ -37,6 +50,7 @@ class MenuActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
     private lateinit var btnSair: Button
     private lateinit var btnAdicionarCartao: Button
     private lateinit var firestore: FirebaseFirestore
+
 
     class Desconectar : DialogFragment() {
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -94,7 +108,7 @@ class MenuActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
         }
     }
 
-        public override fun onStart() {
+    public override fun onStart() {
         super.onStart()
         val currentUser = auth.currentUser
         if (currentUser == null) {
@@ -103,30 +117,75 @@ class MenuActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+
         map = googleMap
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            enableMyLocation()
+
+            val localAtual = LocationServices.getFusedLocationProviderClient(this)
+            localAtual.lastLocation
+                .addOnSuccessListener { location : Location? ->
+                    location?.let {
+                        ultimaLocalizacao = it
+                    }
+                }
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), requisitarCodigo)
+        }
+
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             enableMyLocation()
         } else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), requisitarCodigo)
         }
+
+
         val pucCampinasH15 = LatLng(-22.836043, -47.070497)
-        val marcadorPucCampinas = googleMap.addMarker(
+        val pucCampinas = LatLng(-22.834051,-47.052900)
+        val marcadorPucCampinasH15 = googleMap.addMarker(
             MarkerOptions()
                 .position(pucCampinasH15)
-                .title("Marcador pucCampinasH15")
+                .title("PucCampinasH15")
         )
-        marcadorPucCampinas?.tag = 0
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(pucCampinasH15))
+        val marcadorPucCampinas = googleMap.addMarker(
+            MarkerOptions()
+                .position(pucCampinas)
+                .title("pucCampinas")
+        )
+
+        marcadorPucCampinasH15?.tag = 0
+        marcadorPucCampinas?.tag = 1
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pucCampinasH15, 15f))
 
         googleMap.setOnMarkerClickListener { marker ->
+
             val lugar: String = when (marker.tag) {
                 0 -> "PucH15"
-                1 -> "OutroLocal"
+                1 -> "PucCampinas"
                 else -> ""
             }
-            val iReservarArmario = Intent(this, EscolherArmarioActivity::class.java)
-            iReservarArmario.putExtra("lugar", lugar)
-            startActivity(iReservarArmario)
+
+            val dialogView = layoutInflater.inflate(R.layout.layout_info_marcador, null)
+            val dialogBuilder = AlertDialog.Builder(this)
+                .setView(dialogView)
+
+            val alertDialog = dialogBuilder.create()
+            alertDialog.show()
+
+            dialogView.findViewById<Button>(R.id.btnAloca).setOnClickListener{
+                val iReservarArmario = Intent(this, EscolherArmarioActivity::class.java)
+                iReservarArmario.putExtra("lugar", lugar)
+                startActivity(iReservarArmario)
+                alertDialog.dismiss()
+            }
+
+            dialogView.findViewById<Button>(R.id.btnRota).setOnClickListener {
+                exibirRota(marker.position,map)
+                alertDialog.dismiss()
+            }
+
             false
         }
 
@@ -142,18 +201,52 @@ class MenuActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListe
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun exibirRota(destino: LatLng,map: GoogleMap){
+
+        polylineAtual?.remove()
+
+        val origem = "${ultimaLocalizacao!!.latitude},${ultimaLocalizacao!!.longitude}"
+        val chave = "AIzaSyAo7fDdu-B0wBUvEhzOvpbUDU5ZyJb8RBY"
+        val geoApiContext = GeoApiContext.Builder()
+            .apiKey(chave)
+            .build()
+
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val destination = "${destino.latitude},${destino.longitude}"
+                Log.d(TAG, "Destino da rota: $destination")
+                val directionsResult: DirectionsResult = DirectionsApi.newRequest(geoApiContext)
+                    .mode(TravelMode.DRIVING)
+                    .origin(origem)
+                    .destination(destination)
+                    .await()
+
+                val points = mutableListOf<LatLng>()
+                Log.d(TAG, "Direções resultantes obtidas com sucesso")
+                val route = directionsResult.routes[0].overviewPolyline.decodePath()
+
+                for (point in route) {
+                    points.add(LatLng(point.lat, point.lng))
+                }
+
+                val polylineOptions = PolylineOptions()
+                    .addAll(points)
+                    .width(10f)
+                    .color(Color.RED)
+
+                runOnUiThread {
+                    polylineAtual = map.addPolyline(polylineOptions)
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Erro ao obter direções: ${e.message}", e)
+            }
+        }
+
+    }
+
     @SuppressLint("MissingPermission")
     private fun enableMyLocation() {
         map.isMyLocationEnabled = true
-        map.setOnMyLocationButtonClickListener(this)
-        map.setOnMyLocationClickListener(this)
-    }
-
-    override fun onMyLocationClick(location: Location) {
-        Toast.makeText(this, "Localização atual:\n$location", Toast.LENGTH_LONG).show()
-    }
-
-    override fun onMyLocationButtonClick(): Boolean {
-        return false
     }
 }

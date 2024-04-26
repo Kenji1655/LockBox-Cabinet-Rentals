@@ -3,6 +3,7 @@ package br.edu.puccampinas.PI3_ES_2024_Time17
 import ArmarioAdapter
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -20,6 +21,7 @@ class EscolherArmarioActivity : AppCompatActivity() {
 
     private lateinit var firestore: FirebaseFirestore
     private lateinit var listarArmario: RecyclerView
+    private lateinit var btnVoltar: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,10 +29,15 @@ class EscolherArmarioActivity : AppCompatActivity() {
 
         listarArmario = findViewById(R.id.teste)
         firestore = FirebaseFirestore.getInstance()
+        btnVoltar = findViewById(R.id.btnVoltar)
 
         prepararReclycleView()
 
         carregarArmarios()
+
+        btnVoltar.setOnClickListener {
+            finish()
+        }
 
         enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -56,7 +63,8 @@ class EscolherArmarioActivity : AppCompatActivity() {
                     var i = 1
                     while (true) {
                         val armarioData = documento.get("Armario $i") as? Map<*, *> ?: break
-                        val disponibilidade = armarioData["ocupacao"] as? Boolean ?: false
+                        val disponibilidade = armarioData["Disponibilidade"] as? Boolean ?: false
+                        Log.d("EscolherArmarioActivity", "Disponibilidade do Armário $i: $disponibilidade")
                         val armario = Armario(disponibilidade)
                         listaDeArmarios.add(armario)
                         Log.d("EscolherArmarioActivity", "Armário adicionado: $armario")
