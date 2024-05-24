@@ -22,6 +22,10 @@ android {
         buildConfig = true
     }
 
+    buildFeatures{
+        viewBinding = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -71,8 +75,15 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
-    implementation ("com.google.zxing:core:3.4.1")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
     implementation ("com.google.android.gms:play-services-location:21.2.0")
     implementation ("com.google.maps:google-maps-services:0.17.0")
+    implementation("com.journeyapps:zxing-android-embedded:4.2.0")
+    implementation ("androidx.camera:camera-core:1.3.3")
+    implementation ("androidx.camera:camera-camera2:1.3.3")
+    implementation ("androidx.camera:camera-lifecycle:1.3.3")
+    implementation ("androidx.camera:camera-view:1.3.3")
+    implementation ("com.google.android.gms:play-services-mlkit-barcode-scanning:16.1.1")
+
+    implementation ("androidx.camera:camera-extensions:1.3.3")
 }

@@ -4,6 +4,7 @@ import ArmarioAdapter
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -14,8 +15,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 data class Armario(
     val disponibilidade: Boolean = false,
+    val local: String = "",
+    val id: String = ""
 )
-
 
 class EscolherArmarioActivity : AppCompatActivity() {
 
@@ -46,11 +48,13 @@ class EscolherArmarioActivity : AppCompatActivity() {
             insets
         }
     }
+
     private fun prepararReclycleView() {
         listarArmario.layoutManager = LinearLayoutManager(this)
         listarArmario.setHasFixedSize(true)
     }
-    private fun carregarArmarios(){
+
+    private fun carregarArmarios() {
         val lugar = intent.getStringExtra("lugar")
 
         val listaDeArmarios = mutableListOf<Armario>()
@@ -64,8 +68,9 @@ class EscolherArmarioActivity : AppCompatActivity() {
                     while (true) {
                         val armarioData = documento.get("Armario $i") as? Map<*, *> ?: break
                         val disponibilidade = armarioData["Disponibilidade"] as? Boolean ?: false
+                        val id = armarioData["id"] as? String ?: "Armario $i"
                         Log.d("EscolherArmarioActivity", "Disponibilidade do Armário $i: $disponibilidade")
-                        val armario = Armario(disponibilidade)
+                        val armario = Armario(disponibilidade = disponibilidade, local = lugar, id = id)
                         listaDeArmarios.add(armario)
                         Log.d("EscolherArmarioActivity", "Armário adicionado: $armario")
                         i++
@@ -78,4 +83,5 @@ class EscolherArmarioActivity : AppCompatActivity() {
                 }
         }
     }
+
 }

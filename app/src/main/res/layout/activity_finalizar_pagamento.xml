@@ -32,33 +32,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1 hora = R$30.00"
-            android:checked="true" />
+            android:checked="false" />
 
         <RadioButton
             android:id="@+id/Pagamento2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2 horas = R$40.00" />
+            android:text="2 horas = R$40.00"
+            android:checked="false" />
 
         <RadioButton
             android:id="@+id/Pagamento3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4 horas = R$60.00" />
+            android:text="4 horas = R$60.00"
+            android:checked="false" />
+
         <RadioButton
             android:id="@+id/Pagamento4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="8 horas = R$100.00"
-            android:checked="true" />
+            android:checked="false" />
+
         <RadioButton
             android:id="@+id/Pagamento5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="16 horas = R$180.00"
-            android:checked="true" />
+            android:checked="false" />
 
     </RadioGroup>
+
 
     <Button
         android:id="@+id/btnFinalizar"

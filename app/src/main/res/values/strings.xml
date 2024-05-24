@@ -17,4 +17,5 @@
     <string name="numero_do_cart_o">Numero do cartão</string>
     <string name="data_de_validade">Data de Validade</string>
     <string name="cvv">Cvv</string>
+    <string name="desconectar">Desconectar</string>
 </resources>

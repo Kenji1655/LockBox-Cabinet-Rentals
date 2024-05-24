@@ -9,15 +9,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class LoginActivity : AppCompatActivity() {
 
-    private fun preenchido(email: String,senha: String): Boolean{
-        return email.isNotEmpty() && senha.isNotEmpty()
-    }
-
     private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
     private lateinit var edtEmail: EditText
     private lateinit var edtSenha: EditText
     private lateinit var btnCriarConta: Button
@@ -29,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
 
         btnCriarConta = findViewById(R.id.btnCriarConta)
         btnLogin = findViewById(R.id.btnLogin)
@@ -38,20 +37,19 @@ class LoginActivity : AppCompatActivity() {
         edtSenha = findViewById(R.id.tvSenha)
 
         btnCriarConta.setOnClickListener {
-            val iCriarConta = Intent(this,CriarContaActivity::class.java)
+            val iCriarConta = Intent(this, CriarContaActivity::class.java)
             startActivity(iCriarConta)
         }
         btnRecuperarSenha.setOnClickListener {
-            val iRecuperarSenha = Intent(this,RecuperarSenhaActivity::class.java)
+            val iRecuperarSenha = Intent(this, RecuperarSenhaActivity::class.java)
             startActivity(iRecuperarSenha)
         }
 
         btnLogin.setOnClickListener {
-
             val email = edtEmail.text.toString()
             val senha = edtSenha.text.toString()
 
-            if (!preenchido(email,senha)){
+            if (!preenchido(email, senha)) {
                 Toast.makeText(
                     baseContext, "Por favor, preencha o email e senha corretamente.",
                     Toast.LENGTH_SHORT
@@ -59,32 +57,67 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-
-            auth.signInWithEmailAndPassword(email, senha)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        Log.d(TAG, "Login realizado com sucesso")
-                        val iMain = Intent(this, MenuActivity::class.java)
-                        startActivity(iMain)
-                    } else {
-                        Log.w(TAG, "Erro ao logar:", task.exception)
-                        Toast.makeText(
-                            baseContext,
-                            "Erro ao logar: ${task.exception?.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
+            login(email, senha)
         }
-
     }
-    public override fun onStart() {
-        super.onStart()
+
+    private fun login(email: String, senha: String) {
+        auth.signInWithEmailAndPassword(email, senha)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "Login realizado com sucesso")
+                    goToMainScreen()
+                } else {
+                    Log.w(TAG, "Erro ao logar:", task.exception)
+                    Toast.makeText(
+                        baseContext,
+                        "Erro ao logar: ${task.exception?.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+    }
+
+    private fun goToMainScreen() {
         val currentUser = auth.currentUser
-        if (currentUser != null) {
-            val iMain = Intent(this, MenuActivity::class.java)
-            startActivity(iMain)
+        currentUser?.let {
+            val userDocumentRef = db.collection("Usuario").document(it.uid)
+            userDocumentRef.get().addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    val cargo = documentSnapshot.getString("Cargo")
+                    val intent = when (cargo) {
+                        "Gerente" -> Intent(this, MenuGerenteActivity::class.java)
+                        "Cliente" -> Intent(this, MenuActivity::class.java)
+                        else -> {
+                            Toast.makeText(
+                                baseContext,
+                                "Cargo não reconhecido.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@addOnSuccessListener
+                        }
+                    }
+                    startActivity(intent)
+                } else {
+                    Log.d(TAG, "Documento não encontrado")
+                    Toast.makeText(
+                        baseContext,
+                        "Erro ao obter informações do usuário.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }.addOnFailureListener { e ->
+                Log.w(TAG, "Erro ao buscar documento", e)
+                Toast.makeText(
+                    baseContext,
+                    "Erro ao obter informações do usuário: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
+    }
+
+    private fun preenchido(email: String, senha: String): Boolean {
+        return email.isNotEmpty() && senha.isNotEmpty()
     }
 }
-

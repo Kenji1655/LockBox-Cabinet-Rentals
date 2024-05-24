@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.edu.puccampinas.PI3_ES_2024_Time17.Armario
 import br.edu.puccampinas.PI3_ES_2024_Time17.FinalizarPagamentoActivity
-import br.edu.puccampinas.PI3_ES_2024_Time17.R // Certifique-se de importar corretamente o R
+import br.edu.puccampinas.PI3_ES_2024_Time17.R
 
 class ArmarioAdapter(private val listaDeArmarios: List<Armario>) : RecyclerView.Adapter<ArmarioAdapter.ArmarioViewHolder>() {
 
@@ -19,13 +19,14 @@ class ArmarioAdapter(private val listaDeArmarios: List<Armario>) : RecyclerView.
     override fun onBindViewHolder(holder: ArmarioViewHolder, position: Int) {
         val currentItem = listaDeArmarios[position]
         holder.armarioNumero.text = "Armário ${position + 1}"
-        holder.disponibilidade.text = if (currentItem.disponibilidade) "Disponivel" else "Ocupado"
+        holder.disponibilidade.text = if (currentItem.disponibilidade) "Disponível" else "Ocupado"
+        holder.localArmario.text = "Local: ${currentItem.local}"
         holder.alocar.isEnabled = currentItem.disponibilidade
         holder.alocar.setOnClickListener {
-            val numeroArmario = position + 1
             val context = holder.itemView.context
             val intent = Intent(context, FinalizarPagamentoActivity::class.java)
-            intent.putExtra("numero_armario", numeroArmario)
+            intent.putExtra("id_armario", currentItem.id)
+            intent.putExtra("local_armario", currentItem.local)
             context.startActivity(intent)
         }
     }
@@ -36,5 +37,6 @@ class ArmarioAdapter(private val listaDeArmarios: List<Armario>) : RecyclerView.
         val alocar: Button = itemView.findViewById(R.id.irPagamento)
         val armarioNumero: TextView = itemView.findViewById(R.id.armarioNumero)
         val disponibilidade: TextView = itemView.findViewById(R.id.disponibilidade)
+        val localArmario: TextView = itemView.findViewById(R.id.local)
     }
 }
