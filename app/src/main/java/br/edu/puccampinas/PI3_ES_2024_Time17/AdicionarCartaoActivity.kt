@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
+import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -24,7 +25,7 @@ class AdicionarCartaoActivity : AppCompatActivity() {
     private lateinit var edtValidade: TextInputEditText
     private lateinit var edtCvv: EditText
     private lateinit var btnAdicionarCartao: Button
-    private lateinit var btnVoltar: Button
+    private lateinit var btnVoltar: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

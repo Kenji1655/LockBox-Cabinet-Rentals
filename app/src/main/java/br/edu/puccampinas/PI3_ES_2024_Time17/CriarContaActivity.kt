@@ -2,6 +2,7 @@ package br.edu.puccampinas.PI3_ES_2024_Time17
 
 import android.app.DatePickerDialog
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -19,6 +20,7 @@ import java.util.Locale
 import android.text.InputFilter
 import android.text.Spanned
 import android.widget.DatePicker
+import android.widget.ImageButton
 import com.google.android.material.textfield.TextInputEditText
 
 
@@ -30,7 +32,7 @@ class CriarContaActivity : AppCompatActivity() {
     private lateinit var edtEmail: EditText
     private lateinit var edtdataNascimento: TextInputEditText
     private lateinit var edtcpf: EditText
-    private lateinit var btnSair: Button
+    private lateinit var btnSair: ImageButton
     private lateinit var btnCriarConta: Button
 
     class Conta(val nome: String, val email: String, val dataNascimento: String, val senha: String, val cpf: String) {
@@ -145,6 +147,11 @@ class CriarContaActivity : AppCompatActivity() {
                                         TAG,
                                         "Dados da conta adicionados ao Firestore com sucesso"
                                     )
+
+                                    // AQUI ABRE A OUTRA ACTIVITY
+                                    val intent = Intent(this, ConfirmacaoCadastroActivity::class.java)
+                                    startActivity(intent)
+
                                 }
                                 .addOnFailureListener { e ->
                                     Log.w(TAG, "Erro ao adicionar dados da conta ao Firestore", e)

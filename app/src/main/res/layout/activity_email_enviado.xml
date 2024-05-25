@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@color/white"
+    tools:context=".EmailEnviadoActivity"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+    <ImageView
+        android:layout_width="433dp"
+        android:layout_height="436dp"
+        android:src="@drawable/rec_senha"
+        android:layout_centerInParent="true"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/recupera_o_de_senha"
+        android:textColor="@color/text"
+        android:textSize="24sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/um_e_mail_de_recupera_o_foi_enviado_para_caixa_de_entrada"
+        android:textColor="@color/text"
+        android:textSize="16sp"
+        android:layout_marginBottom="20dp"/>
+
+
+
+    <Button
+        android:id="@+id/btnContinuarRecSenha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Continuar"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blue_text"
+        android:layout_marginTop="20dp"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

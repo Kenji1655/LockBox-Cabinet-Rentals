@@ -1,10 +1,12 @@
 package br.edu.puccampinas.PI3_ES_2024_Time17
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -16,13 +18,13 @@ import com.google.firebase.auth.auth
 class RecuperarSenhaActivity : AppCompatActivity() {
 
     private lateinit var btnRecuperarSenha: Button
-    private lateinit var btnVoltar: Button
+    private lateinit var btnVoltar: ImageButton
     private lateinit var edtEmail: EditText
 
 
-        private fun preenchido(email: String): Boolean{
-            return email.isNotEmpty()
-        }
+    private fun preenchido(email: String): Boolean {
+        return email.isNotEmpty()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +46,7 @@ class RecuperarSenhaActivity : AppCompatActivity() {
         btnRecuperarSenha.setOnClickListener {
             val email = edtEmail.text.toString()
 
-            if (!preenchido(email)){
+            if (!preenchido(email)) {
                 Toast.makeText(
                     baseContext, "Por favor, preencha o email corretamente.",
                     Toast.LENGTH_SHORT
@@ -56,6 +58,13 @@ class RecuperarSenhaActivity : AppCompatActivity() {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.d(TAG, "Email sent.")
+                        val intent = Intent(this, EmailEnviadoActivity::class.java)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(
+                            baseContext, "Erro ao enviar o email.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
         }

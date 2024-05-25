@@ -5,81 +5,160 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".LoginActivity"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="20dp">
+    android:background="@color/white"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="14dp"
+    tools:context=".LoginActivity">
+
+    <ImageButton
+        android:id="@+id/btnVoltar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_baseline_arrow_back_24"
+        style="?attr/materialButtonOutlinedStyle"
+        android:contentDescription="@string/sair"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="33sp"
-        android:text="Digite os dados do seu cartão"/>
+        android:textSize="34sp"
+        android:gravity="left"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:textStyle="bold"
+        android:text="@string/adicionar_cart_o"
+        android:textColor="@color/text"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="11sp"
+        android:gravity="left"
+        android:layout_marginBottom="1dp"
+        android:textStyle="normal"
+        android:text="@string/n_mero_do_cart_o"
+        android:textColor="@color/text"
+        />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tlNumeroDoCartão"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="@string/numero_do_cart_o"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
+        android:paddingBottom="20dp"
+        app:endIconMode="clear_text"
+        android:hint="@string/cart_o_de_cr_dito"
+        app:boxStrokeColor="@color/blue_text"
+        android:textColorHint="@color/gray_200"
+        android:layout_gravity="center">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tvNumerodoCartão"
-            android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="16"/>
-
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tlDataDeValidade"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:helperTextEnabled="true"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtDataDeValidade"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="false"
-            android:inputType="none"
-            android:hint="Data de Validade"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tlCvv"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="@string/cvv"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tvCvv"
-            android:inputType="number"
-            android:layout_width="match_parent"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:maxLength="3"/>
+            android:textSize="11sp"
+            android:gravity="left"
+            android:textStyle="normal"
+            android:layout_marginStart="4dp"
+            android:text="Data de validade"
+            android:textColor="@color/text"
+            />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:gravity="left"
+            android:layout_marginStart="85dp"
+            android:textStyle="normal"
+            android:text="@string/c_digo_de_seguran_a"
+            android:textColor="@color/text"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        >
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlDataDeValidade"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            android:hint="@string/mm_aa"
+            app:boxStrokeColor="@color/blue_text"
+            android:textColorHint="@color/gray_200"
+            android:layout_gravity="left">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtDataDeValidade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlCvv"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            app:boxCornerRadiusBottomEnd="8dp"
+            app:boxCornerRadiusBottomStart="8dp"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
+            android:hint="@string/cardCVV"
+            app:boxStrokeColor="@color/text"
+            android:textColorHint="@color/gray_200"
+            android:layout_gravity="left">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tvCvv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnAdicionarCartao"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Adicionar cartão"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="300dp"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:text="@string/adicionar"
+        android:backgroundTint="@color/blue_text"
+        />
 
-    <Button
-        android:id="@+id/btnVoltar"
-        android:layout_width="wrap_content"
+
+    <TextView
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Voltar"/>
-
+        android:layout_marginStart="80dp"
+        android:textSize="11sp"
+        android:gravity="center"
+        android:textStyle="normal"
+        android:text="@string/as_informa_es_do_seu_cart_o_ser_o_armazenadas_com_seguran_a"
+        android:textColor="@color/text"
+        />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

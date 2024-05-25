@@ -65,7 +65,15 @@
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
+            android:exported="false" />
+        <activity android:name=".EmailEnviadoActivity"
+            android:exported="false" />
+        <activity android:name=".ConfirmacaoCadastroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SplashScreenActivity"
+            android:exported="true"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

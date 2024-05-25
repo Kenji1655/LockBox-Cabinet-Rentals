@@ -18,4 +18,21 @@
     <string name="data_de_validade">Data de Validade</string>
     <string name="cvv">Cvv</string>
     <string name="desconectar">Desconectar</string>
+    <string name="cardCVV">CVV</string>
+    <string name="adicionar_cart_o">Adicionar cartão</string>
+    <string name="n_mero_do_cart_o">Número do cartão</string>
+    <string name="cart_o_de_cr_dito">Cartão de crédito</string>
+    <string name="c_digo_de_seguran_a">Código de segurança</string>
+    <string name="mm_aa">MM/AA</string>
+    <string name="adicionar">ADICIONAR</string>
+    <string name="as_informa_es_do_seu_cart_o_ser_o_armazenadas_com_seguran_a">As informações do seu cartão serão armazenadas com segurança</string>
+    <string name="recupera_o_de_senha">Recuperação de senha</string>
+    <string name="informe_o_e_mail_cadastrado">Informe o e-mail cadastrado</string>
+    <string name="e_mail">E-mail</string>
+    <string name="digite_seu_e_mail">Digite seu e-mail</string>
+    <string name="enviar">Enviar</string>
+    <string name="um_e_mail_de_recupera_o_foi_enviado_para_caixa_de_entrada">Um e-mail de recuperação foi enviado para caixa de entrada</string>
+    <string name="cadastrado">Cadastrado 🎉</string>
+    <string name="continuar">Continuar</string>
+    <string name="um_e_mail_de_confirma_o_foi_enviado_para_caixa_de_entrada">Um e-mail de confirmação foi enviado para caixa de entrada</string>
 </resources>
