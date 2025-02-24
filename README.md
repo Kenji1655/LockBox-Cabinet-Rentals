@@ -1,5 +1,3 @@
-# PI3-ES-2024-Time17
-
 # LockBox Cabinet Rentals
 
 LockBox Cabinet Rentals é um aplicativo que oferece armários alugáveis com trava eletrônica inteligente para garantir a segurança dos pertences dos usuários em locais de entretenimento. Os clientes podem facilmente alugar um armário por meio do aplicativo e os gerentes das unidades locadoras podem gerenciar as locações de forma eficiente.
