@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MenuGerenteActivity">
+
+  <Button
+      android:id="@+id/btnDesconectar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/desconectar" />
+
+  <Button
+      android:id="@+id/btnLerQR"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:text="Ler QRCode" />
+
+  <Button
+      android:id="@+id/btnAbrirArmario"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:text="Abrir Armário" />
+
+</LinearLayout>
